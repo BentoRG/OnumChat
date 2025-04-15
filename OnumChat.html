@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnumChat</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: blueviolet;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 50px;
+      margin: 20px;
+    }
+
+    .chat-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      width: 60vw;
+      max-width: 800px;
+      min-width: 300px;
+    }
+
+    .info {
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+    }
+
+    .author {
+      font-weight: bold;
+      color: blueviolet;
+    }
+
+    .chat-box {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 50vh;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #e0f0ff;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .date-separator {
+      text-align: center;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 1px solid #aaa;
+      padding-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: blueviolet;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: darkviolet;
+    }
+  </style>
+</head>
+<body>
+  <h1>OnumChat</h1>
+
+  <div class="chat-container">
+    <div class="info">
+      Esta página permite que diferentes usuários troquem mensagens de texto usando o navegador. As mensagens ficam salvas localmente e são atualizadas automaticamente.
+      <br /><br />
+      <span class="author">Bentorg é o autor desta página</span>
+    </div>
+
+    <div class="chat-box" id="chat-box"></div>
+    <input type="text" id="username" placeholder="Seu nome" />
+    <input type="text" id="message" placeholder="Digite uma mensagem..." />
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+
+  <script>
+    function formatDate(date) {
+      return date.toLocaleDateString('pt-BR');
+    }
+
+    function loadMessages() {
+      const chatBox = document.getElementById("chat-box");
+      chatBox.innerHTML = "";
+
+      const messages = JSON.parse(localStorage.getItem("chat-messages")) || [];
+
+      let lastDate = null;
+
+      messages.forEach((msg) => {
+        const currentDate = formatDate(new Date(msg.timestamp));
+
+        if (currentDate !== lastDate) {
+          const dateDiv = document.createElement("div");
+          dateDiv.className = "date-separator";
+          dateDiv.textContent = currentDate;
+          chatBox.appendChild(dateDiv);
+          lastDate = currentDate;
+        }
+
+        const p = document.createElement("p");
+        p.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
+        chatBox.appendChild(p);
+      });
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const username = document.getElementById("username").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!username || !message) {
+        alert("Digite seu nome e a mensagem!");
+        return;
+      }
+
+      const messages = JSON.parse(localStorage.getItem("chat-messages")) || [];
+
+      messages.push({
+        name: username,
+        text: message,
+        timestamp: new Date().toISOString()
+      });
+
+      localStorage.setItem("chat-messages", JSON.stringify(messages));
+
+      document.getElementById("message").value = "";
+      loadMessages();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      localStorage.removeItem("chat-messages"); // Reset histórico ao carregar
+      loadMessages();
+
+      setInterval(loadMessages, 2000);
+
+      document.getElementById("message").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
