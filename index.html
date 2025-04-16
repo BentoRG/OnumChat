@@ -166,7 +166,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      localStorage.removeItem("chat-messages"); // Reset histórico ao carregar
       loadMessages();
 
       setInterval(loadMessages, 2000);
