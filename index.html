@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnumChat</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: blueviolet;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 50px;
+      margin: 20px;
+    }
+
+    .chat-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      width: 60vw;
+      max-width: 800px;
+      min-width: 300px;
+    }
+
+    .info {
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+    }
+
+    .author {
+      font-weight: bold;
+      color: blueviolet;
+    }
+
+    .bnt {
+      font-style: italic;
+    }
+
+    .status {
+      font-size: 13px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .status.connected {
+      color: #2e7d32;
+    }
+
+    .status.disconnected {
+      color: #c62828;
+    }
+
+    .chat-box {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 50vh;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: rgb(230, 230, 230);
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .date-separator {
+      text-align: center;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 1px solid #aaa;
+      padding-bottom: 5px;
+    }
+
+    .message-line {
+      margin: 6px 0;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: blueviolet;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: darkviolet;
+    }
+
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>OnumChat</h1>
+
+  <div class="chat-container">
+    <div class="info">
+      Esta página permite que diferentes usuários troquem mensagens de texto em tempo real. As mensagens ficam salvas no servidor e qualquer pessoa que entrar no site pode ver o histórico.
+      <br>
+      Para mais jogos pelo autor desta página, <a target="_blank" href="https://bentorg.github.io/PongSolo/">clique aqui</a>.
+      <br><br>
+      <span class="bnt">Esta página foi feita com apoio de IA</span>
+      <br><br>
+      <span class="author">Bentorg é o autor desta página</span>
+    </div>
+
+    <div class="status disconnected" id="status">Conectando...</div>
+
+    <div class="chat-box" id="chat-box"></div>
+    <input type="text" id="username" placeholder="Seu nome" />
+    <input type="text" id="message" placeholder="Digite uma mensagem..." />
+    <button id="send-btn" onclick="sendMessage()" disabled>Enviar</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const usernameInput = document.getElementById("username");
+    const messageInput = document.getElementById("message");
+    const sendBtn = document.getElementById("send-btn");
+    const statusEl = document.getElementById("status");
+
+    let messages = [];
+    let lastDate = null;
+    let socket = null;
+
+    const savedUsername = localStorage.getItem("onumchat-username");
+    if (savedUsername) {
+      usernameInput.value = savedUsername;
+    }
+
+    function formatDate(date) {
+      return date.toLocaleDateString("pt-BR");
+    }
+
+    function renderMessages() {
+      chatBox.innerHTML = "";
+      lastDate = null;
+
+      messages.forEach((msg) => {
+        appendMessage(msg, false);
+      });
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendMessage(msg, scroll = true) {
+      const currentDate = formatDate(new Date(msg.timestamp));
+
+      if (currentDate !== lastDate) {
+        const dateDiv = document.createElement("div");
+        dateDiv.className = "date-separator";
+        dateDiv.textContent = currentDate;
+        chatBox.appendChild(dateDiv);
+        lastDate = currentDate;
+      }
+
+      const p = document.createElement("p");
+      p.className = "message-line";
+
+      const strong = document.createElement("strong");
+      strong.textContent = msg.name + ":";
+      p.appendChild(strong);
+      p.appendChild(document.createTextNode(" " + msg.text));
+
+      chatBox.appendChild(p);
+
+      if (scroll) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+
+    function setConnected(connected) {
+      statusEl.textContent = connected ? "Conectado — mensagens em tempo real" : "Desconectado — tentando reconectar...";
+      statusEl.className = "status " + (connected ? "connected" : "disconnected");
+      sendBtn.disabled = !connected;
+    }
+
+    async function loadHistory() {
+      const response = await fetch("/api/messages");
+      messages = await response.json();
+      renderMessages();
+    }
+
+    function sendMessage() {
+      const username = usernameInput.value.trim();
+      const message = messageInput.value.trim();
+
+      if (!username || !message) {
+        alert("Digite seu nome e a mensagem!");
+        return;
+      }
+
+      if (!socket || !socket.connected) {
+        alert("Sem conexão com o servidor. Aguarde reconectar.");
+        return;
+      }
+
+      localStorage.setItem("onumchat-username", username);
+      socket.emit("send-message", { name: username, text: message });
+      messageInput.value = "";
+    }
+
+    function connect() {
+      socket = io();
+
+      socket.on("connect", () => {
+        setConnected(true);
+      });
+
+      socket.on("disconnect", () => {
+        setConnected(false);
+      });
+
+      socket.on("new-message", (msg) => {
+        if (messages.some((m) => m.id === msg.id)) return;
+        messages.push(msg);
+        appendMessage(msg);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      connect();
+      await loadHistory();
+
+      messageInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
