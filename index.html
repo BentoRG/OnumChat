@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OnumChat</title>
+  <script>
+    if (location.hostname.endsWith("github.io")) {
+      location.replace("https://onumchat.timgo.uk");
+    }
+  </script>
   <style>
     html, body {
       height: 100%;
@@ -135,15 +140,14 @@
       <span class="author">Bentorg é o autor desta página</span>
     </div>
 
-    <div class="status disconnected" id="status">Conectando...</div>
+    <div class="status connected" id="status">Pronto para conversar</div>
 
     <div class="chat-box" id="chat-box"></div>
     <input type="text" id="username" placeholder="Seu nome" />
     <input type="text" id="message" placeholder="Digite uma mensagem..." />
-    <button id="send-btn" onclick="sendMessage()" disabled>Enviar</button>
+    <button id="send-btn" type="button">Enviar</button>
   </div>
 
-  <script src="/socket.io/socket.io.js"></script>
   <script>
     const chatBox = document.getElementById("chat-box");
     const usernameInput = document.getElementById("username");
@@ -153,7 +157,8 @@
 
     let messages = [];
     let lastDate = null;
-    let socket = null;
+    let pollTimer = null;
+    let sending = false;
 
     const savedUsername = localStorage.getItem("onumchat-username");
     if (savedUsername) {
@@ -201,19 +206,51 @@
       }
     }
 
-    function setConnected(connected) {
-      statusEl.textContent = connected ? "Conectado — mensagens em tempo real" : "Desconectado — tentando reconectar...";
-      statusEl.className = "status " + (connected ? "connected" : "disconnected");
-      sendBtn.disabled = !connected;
+    function setStatus(text, ok) {
+      statusEl.textContent = text;
+      statusEl.className = "status " + (ok ? "connected" : "disconnected");
+    }
+
+    function addMessageIfNew(msg) {
+      if (messages.some((m) => m.id === msg.id)) return;
+      messages.push(msg);
+      appendMessage(msg);
     }
 
     async function loadHistory() {
       const response = await fetch("/api/messages");
+      if (!response.ok) throw new Error("history");
       messages = await response.json();
       renderMessages();
     }
 
-    function sendMessage() {
+    async function pollMessages() {
+      try {
+        const response = await fetch("/api/messages");
+        if (!response.ok) throw new Error("poll");
+        const latest = await response.json();
+
+        if (latest.length !== messages.length) {
+          messages = latest;
+          renderMessages();
+          setStatus("Conectado — mensagens atualizadas automaticamente", true);
+          return;
+        }
+
+        const lastKnownId = messages.length ? messages[messages.length - 1].id : 0;
+        latest.filter((msg) => msg.id > lastKnownId).forEach(addMessageIfNew);
+        setStatus("Conectado — mensagens atualizadas automaticamente", true);
+      } catch (_error) {
+        setStatus("Sem conexão com o servidor — tentando reconectar...", false);
+      }
+    }
+
+    function startPolling() {
+      if (pollTimer) return;
+      pollTimer = setInterval(pollMessages, 2000);
+    }
+
+    async function sendMessage() {
       const username = usernameInput.value.trim();
       const message = messageInput.value.trim();
 
@@ -222,44 +259,55 @@
         return;
       }
 
-      if (!socket || !socket.connected) {
-        alert("Sem conexão com o servidor. Aguarde reconectar.");
-        return;
-      }
+      if (sending) return;
+      sending = true;
+      sendBtn.disabled = true;
 
       localStorage.setItem("onumchat-username", username);
-      socket.emit("send-message", { name: username, text: message });
-      messageInput.value = "";
-    }
 
-    function connect() {
-      socket = io();
+      try {
+        const response = await fetch("/api/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: username, text: message }),
+        });
 
-      socket.on("connect", () => {
-        setConnected(true);
-      });
-
-      socket.on("disconnect", () => {
-        setConnected(false);
-      });
-
-      socket.on("new-message", (msg) => {
-        if (messages.some((m) => m.id === msg.id)) return;
-        messages.push(msg);
-        appendMessage(msg);
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      connect();
-      await loadHistory();
-
-      messageInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          sendMessage();
+        if (!response.ok) {
+          alert("Não foi possível enviar a mensagem.");
+          return;
         }
-      });
+
+        const saved = await response.json();
+        addMessageIfNew(saved);
+        messageInput.value = "";
+        setStatus("Conectado — mensagens atualizadas automaticamente", true);
+      } catch (_error) {
+        alert("Sem conexão com o servidor. Tente novamente.");
+        setStatus("Sem conexão com o servidor — tentando reconectar...", false);
+      } finally {
+        sending = false;
+        sendBtn.disabled = false;
+        messageInput.focus();
+      }
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+
+    messageInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
     });
+
+    loadHistory()
+      .then(() => {
+        setStatus("Conectado — mensagens atualizadas automaticamente", true);
+        startPolling();
+      })
+      .catch(() => {
+        setStatus("Sem conexão com o servidor — tentando reconectar...", false);
+        startPolling();
+      });
   </script>
 </body>
 </html>
