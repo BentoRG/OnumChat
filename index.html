@@ -9,6 +9,12 @@
       location.replace("https://onumchat.timgo.uk");
     }
   </script>
+  <meta http-equiv="refresh" content="0; url=https://onumchat.timgo.uk" id="gh-redirect" />
+  <script>
+    if (!location.hostname.endsWith("github.io")) {
+      document.getElementById("gh-redirect")?.remove();
+    }
+  </script>
   <style>
     html, body {
       height: 100%;
