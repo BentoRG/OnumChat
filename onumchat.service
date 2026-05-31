@@ -1,0 +1,15 @@
+[Unit]
+Description=OnumChat server
+After=network.target
+
+[Service]
+Type=simple
+User=tim
+WorkingDirectory=/home/tim/onumchat
+Environment=PORT=3010
+ExecStart=/home/tim/.nvm/versions/node/v22.22.1/bin/node server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

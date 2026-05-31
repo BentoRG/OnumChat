@@ -29,6 +29,10 @@ const getAllMessages = db.prepare(
 
 app.use(express.static(__dirname));
 
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.get("/api/messages", (_req, res) => {
   res.json(getAllMessages.all());
 });
@@ -57,6 +61,6 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
-  console.log(`OnumChat rodando em http://localhost:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`OnumChat rodando na porta ${PORT}`);
 });
