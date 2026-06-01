@@ -46,26 +46,103 @@
     }
 
     .author {
+      margin-top: 12px;
       font-weight: bold;
       color: blueviolet;
-    }
-
-    .bnt {
-      font-style: italic;
-    }
-
-    .status {
-      font-size: 13px;
-      margin-bottom: 10px;
       text-align: center;
     }
 
-    .status.connected {
-      color: #2e7d32;
+    .supporters {
+      margin-top: 8px;
+      font-size: 14px;
+      font-style: italic;
+      color: #555;
+      text-align: center;
     }
 
-    .status.disconnected {
-      color: #c62828;
+    .more-games {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+    }
+
+    .share-btn {
+      width: auto;
+      margin: 14px auto 0;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .share-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .share-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .share-modal.open {
+      display: flex;
+    }
+
+    .share-popup {
+      background: white;
+      width: 100%;
+      max-width: 360px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+
+    .share-popup h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .share-link {
+      display: block;
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #f7f7f7;
+      color: #333;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    .share-copy-btn {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .share-close-btn {
+      width: auto;
+      margin: 12px auto 0;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: normal;
+      background: white;
+      color: #555;
+      border: 1px solid #bbb;
     }
 
     .chat-box {
@@ -89,8 +166,162 @@
       padding-bottom: 5px;
     }
 
+    .aura-announcement {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin: 16px 0;
+    }
+
+    .aura-announcement-box {
+      background: blueviolet;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 1.4;
+      max-width: 92%;
+      box-shadow: 0 2px 10px rgba(138, 43, 226, 0.25);
+    }
+
     .message-line {
-      margin: 6px 0;
+      margin: 8px 0;
+    }
+
+    .message-body {
+      line-height: 1.4;
+    }
+
+    .reply-preview {
+      margin: 0 0 4px 0;
+      padding: 4px 8px;
+      border-left: 3px solid blueviolet;
+      background: #ececec;
+      color: #555;
+      font-size: 12px;
+    }
+
+    .reply-btn {
+      display: none;
+      width: auto;
+      margin: 0 0 0 6px;
+      padding: 0;
+      font-size: 11px;
+      font-weight: normal;
+      background: none;
+      color: #999;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      vertical-align: baseline;
+    }
+
+    .message-line:hover .reply-btn,
+    .message-line .reply-btn:focus-visible {
+      display: inline;
+    }
+
+    .reply-btn:hover {
+      background: none;
+      color: blueviolet;
+      text-decoration: underline;
+    }
+
+    .reply-banner {
+      display: none;
+      margin: 8px 0 4px;
+      padding: 8px 10px;
+      border-radius: 5px;
+      background: #f3e8ff;
+      color: #333;
+      font-size: 13px;
+    }
+
+    .reply-banner.active {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .reply-banner-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .reply-cancel-btn {
+      width: auto;
+      margin: 0;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: normal;
+      background: white;
+      color: #555;
+      border: 1px solid #bbb;
+    }
+
+    .message-time {
+      color: #777;
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .name-first {
+      color: #e8b923;
+      font-weight: bold;
+    }
+
+    .user-star {
+      margin-left: 2px;
+      font-size: 12px;
+    }
+
+    .user-online {
+      font-weight: normal;
+      color: #2a9d2a;
+      font-size: 13px;
+    }
+
+    .leaderboard-section {
+      margin-top: 14px;
+      margin-bottom: 4px;
+      width: 100%;
+    }
+
+    .leaderboard-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+    }
+
+    .leaderboard {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: white;
+    }
+
+    .leaderboard th,
+    .leaderboard td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .leaderboard th {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .leaderboard tr.leaderboard-row-first td {
+      background: #fff4d6;
+    }
+
+    .send-btn {
+      width: 100%;
     }
 
     input[type="text"] {
@@ -124,6 +355,147 @@
       background-color: #aaa;
       cursor: not-allowed;
     }
+
+    .auth-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .auth-modal.open {
+      display: flex;
+    }
+
+    .auth-popup {
+      background: white;
+      width: 100%;
+      max-width: 380px;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .auth-popup h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      color: #333;
+      text-align: center;
+    }
+
+    .auth-subtitle {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      margin: 0;
+      background: #eee;
+      color: #555;
+      font-weight: normal;
+    }
+
+    .auth-tab.active {
+      background: blueviolet;
+      color: white;
+      font-weight: bold;
+    }
+
+    .auth-error {
+      display: none;
+      margin: 0 0 12px;
+      padding: 8px 10px;
+      border-radius: 5px;
+      background: #ffe8e8;
+      color: #a33;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .auth-error.visible {
+      display: block;
+    }
+
+    .auth-close-btn {
+      width: auto;
+      margin: 12px auto 0;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: normal;
+      background: white;
+      color: #555;
+      border: 1px solid #bbb;
+    }
+
+    .user-bar {
+      display: none;
+      margin: 8px 0 4px;
+      padding: 10px 12px;
+      border-radius: 5px;
+      background: #f3e8ff;
+      color: #333;
+      font-size: 14px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .user-bar.active {
+      display: flex;
+    }
+
+    .user-bar-name {
+      font-weight: bold;
+      color: blueviolet;
+    }
+
+    .logout-btn {
+      width: auto;
+      margin: 0;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: normal;
+      background: white;
+      color: #555;
+      border: 1px solid #bbb;
+    }
+
+    .login-prompt {
+      margin: 8px 0 4px;
+      padding: 10px 12px;
+      border-radius: 5px;
+      background: #fff8e6;
+      color: #665500;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .login-prompt.hidden {
+      display: none;
+    }
+
+    .login-prompt button {
+      width: auto;
+      margin: 0 0 0 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: normal;
+      display: inline;
+    }
   </style>
 </head>
 <body>
@@ -132,43 +504,469 @@
   <div class="chat-container">
     <div class="info">
       Esta página permite que diferentes usuários troquem mensagens de texto. As mensagens ficam salvas no servidor e qualquer pessoa que entrar no site pode ver o histórico.
-      <br><br>
+      <br>
       Link oficial: <a href="https://onumchat.timgo.uk">onumchat.timgo.uk</a>
-      <br><br>
-      Para mais jogos pelo autor desta página, <a target="_blank" href="https://bentorg.github.io/PongSolo/">clique aqui</a>.
-      <br><br>
-      <span class="bnt">Esta página foi feita com apoio de IA</span>
-      <br><br>
-      <span class="author">Bentorg é o autor desta página</span>
     </div>
 
-    <div class="status connected" id="status">Pronto para conversar</div>
-
     <div class="chat-box" id="chat-box"></div>
-    <input type="text" id="username" placeholder="Seu nome" />
+
+    <div class="user-bar" id="user-bar">
+      <div>Conectado como <span class="user-bar-name" id="user-bar-name"></span></div>
+      <button type="button" class="logout-btn" id="logout-btn">Sair</button>
+    </div>
+
+    <div class="login-prompt" id="login-prompt">
+      Faça login para enviar mensagens.
+      <button type="button" id="open-auth-btn">Entrar / Criar conta</button>
+    </div>
+
+    <div class="reply-banner" id="reply-banner">
+      <div class="reply-banner-text" id="reply-banner-text"></div>
+      <button type="button" class="reply-cancel-btn" id="reply-cancel-btn">Cancelar</button>
+    </div>
     <input type="text" id="message" placeholder="Digite uma mensagem..." />
-    <button id="send-btn" type="button">Enviar</button>
+    <button id="send-btn" class="send-btn" type="button">Enviar</button>
+
+    <div class="leaderboard-section">
+      <h3 class="leaderboard-title">Ranking de mensagens</h3>
+      <table class="leaderboard">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Usuário</th>
+            <th>Mensagens</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body"></tbody>
+      </table>
+    </div>
+
+    <div class="author">Berg é o autor dessa página</div>
+    <div class="supporters">Apoiadores: hipo, Chindamo</div>
+    <div class="more-games">
+      Para mais jogos pelo autor desta página, <a target="_blank" href="https://bentorg.github.io/PongSolo/">clique aqui</a>.
+    </div>
+    <button type="button" class="share-btn" id="share-btn">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 16.08c-.76 0-1.44.3-1.96.77l-7.1-4.12a3.27 3.27 0 0 0 0-1.54l7.1-4.12A2.99 2.99 0 1 0 15 5.25l-7.1 4.12a3 3 0 1 0 0 4.66l7.1 4.12A3 3 0 1 0 18 16.08z"/>
+      </svg>
+      Compartilhe
+    </button>
+  </div>
+
+  <div class="share-modal" id="share-modal">
+    <div class="share-popup">
+      <h2>Compartilhar OnumChat</h2>
+      <div class="share-link" id="share-link"></div>
+      <button type="button" class="share-copy-btn" id="share-copy-btn">Copiar link</button>
+      <button type="button" class="share-close-btn" id="share-close-btn">Fechar</button>
+    </div>
+  </div>
+
+  <div class="auth-modal" id="auth-modal">
+    <div class="auth-popup">
+      <h2 id="auth-title">Entrar no OnumChat</h2>
+      <p class="auth-subtitle">Crie uma conta ou entre para enviar mensagens com seu nome.</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="auth-tab-login">Entrar</button>
+        <button type="button" class="auth-tab" id="auth-tab-register">Criar conta</button>
+      </div>
+
+      <div class="auth-error" id="auth-error"></div>
+
+      <input type="text" id="auth-username" placeholder="Seu nome" autocomplete="username" />
+      <input type="password" id="auth-password" placeholder="Senha" autocomplete="current-password" />
+      <input type="password" id="auth-password-confirm" placeholder="Confirmar senha" style="display: none;" autocomplete="new-password" />
+
+      <button type="button" id="auth-submit-btn">Entrar</button>
+      <button type="button" class="auth-close-btn" id="auth-close-btn">Continuar só lendo</button>
+    </div>
   </div>
 
   <script>
+    const SITE_URL = window.location.origin;
     const chatBox = document.getElementById("chat-box");
-    const usernameInput = document.getElementById("username");
     const messageInput = document.getElementById("message");
     const sendBtn = document.getElementById("send-btn");
-    const statusEl = document.getElementById("status");
+    const userBar = document.getElementById("user-bar");
+    const userBarName = document.getElementById("user-bar-name");
+    const logoutBtn = document.getElementById("logout-btn");
+    const loginPrompt = document.getElementById("login-prompt");
+    const openAuthBtn = document.getElementById("open-auth-btn");
+    const authModal = document.getElementById("auth-modal");
+    const authTitle = document.getElementById("auth-title");
+    const authTabLogin = document.getElementById("auth-tab-login");
+    const authTabRegister = document.getElementById("auth-tab-register");
+    const authError = document.getElementById("auth-error");
+    const authUsername = document.getElementById("auth-username");
+    const authPassword = document.getElementById("auth-password");
+    const authPasswordConfirm = document.getElementById("auth-password-confirm");
+    const authSubmitBtn = document.getElementById("auth-submit-btn");
+    const authCloseBtn = document.getElementById("auth-close-btn");
+    const replyBanner = document.getElementById("reply-banner");
+    const replyBannerText = document.getElementById("reply-banner-text");
+    const replyCancelBtn = document.getElementById("reply-cancel-btn");
+    const shareBtn = document.getElementById("share-btn");
+    const shareModal = document.getElementById("share-modal");
+    const shareLink = document.getElementById("share-link");
+    const shareCopyBtn = document.getElementById("share-copy-btn");
+    const shareCloseBtn = document.getElementById("share-close-btn");
+
+    shareLink.textContent = SITE_URL;
+
+    function openShareModal() {
+      shareModal.classList.add("open");
+    }
+
+    function closeShareModal() {
+      shareModal.classList.remove("open");
+    }
+
+    async function copyShareLink() {
+      try {
+        await navigator.clipboard.writeText(SITE_URL);
+        shareCopyBtn.textContent = "Link copiado!";
+        setTimeout(() => {
+          shareCopyBtn.textContent = "Copiar link";
+        }, 2000);
+      } catch (_error) {
+        shareCopyBtn.textContent = "Não foi possível copiar";
+        setTimeout(() => {
+          shareCopyBtn.textContent = "Copiar link";
+        }, 2000);
+      }
+    }
+
+    shareBtn.addEventListener("click", openShareModal);
+    shareCloseBtn.addEventListener("click", closeShareModal);
+    shareCopyBtn.addEventListener("click", copyShareLink);
+    shareModal.addEventListener("click", (event) => {
+      if (event.target === shareModal) closeShareModal();
+    });
 
     let messages = [];
     let lastDate = null;
     let pollTimer = null;
     let sending = false;
+    let replyingTo = null;
+    let leaderboard = [];
+    let topRanks = { gold: null, silver: null, bronze: null };
+    let userStars = {};
+    let onlineUsers = [];
+    let currentUser = null;
+    let authMode = "login";
+    let authSubmitting = false;
 
-    const savedUsername = localStorage.getItem("onumchat-username");
-    if (savedUsername) {
-      usernameInput.value = savedUsername;
+    const fetchOptions = { credentials: "include" };
+
+    function openAuthModal(mode = "login") {
+      setAuthMode(mode);
+      authError.classList.remove("visible");
+      authError.textContent = "";
+      authModal.classList.add("open");
+      authUsername.focus();
     }
 
-    function formatDate(date) {
-      return date.toLocaleDateString("pt-BR");
+    function closeAuthModal() {
+      authModal.classList.remove("open");
+      authError.classList.remove("visible");
+      authError.textContent = "";
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      const isRegister = mode === "register";
+
+      authTabLogin.classList.toggle("active", !isRegister);
+      authTabRegister.classList.toggle("active", isRegister);
+      authTitle.textContent = isRegister ? "Criar conta" : "Entrar no OnumChat";
+      authSubmitBtn.textContent = isRegister ? "Criar conta" : "Entrar";
+      authPasswordConfirm.style.display = isRegister ? "block" : "none";
+      authPassword.autocomplete = isRegister ? "new-password" : "current-password";
+    }
+
+    function showAuthError(message) {
+      authError.textContent = message;
+      authError.classList.add("visible");
+    }
+
+    function updateAuthUI() {
+      const loggedIn = Boolean(currentUser);
+
+      userBar.classList.toggle("active", loggedIn);
+      loginPrompt.classList.toggle("hidden", loggedIn);
+      sendBtn.disabled = !loggedIn || sending;
+      messageInput.disabled = !loggedIn;
+      messageInput.placeholder = loggedIn
+        ? "Digite uma mensagem..."
+        : "Faça login para enviar mensagens";
+
+      if (loggedIn) {
+        userBarName.textContent = currentUser.username;
+        closeAuthModal();
+      }
+    }
+
+    async function fetchCurrentUser() {
+      const response = await fetch("/api/auth/me", fetchOptions);
+      if (response.status === 401) return null;
+      if (!response.ok) throw new Error("auth");
+      return response.json();
+    }
+
+    async function submitAuth() {
+      if (authSubmitting) return;
+
+      const username = authUsername.value.trim();
+      const password = authPassword.value;
+      const passwordConfirm = authPasswordConfirm.value;
+
+      if (!username || !password) {
+        showAuthError("Preencha nome e senha.");
+        return;
+      }
+
+      if (authMode === "register" && password !== passwordConfirm) {
+        showAuthError("As senhas não coincidem.");
+        return;
+      }
+
+      authSubmitting = true;
+      authSubmitBtn.disabled = true;
+      authError.classList.remove("visible");
+
+      const endpoint = authMode === "register" ? "/api/auth/register" : "/api/auth/login";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          showAuthError(data.error || "Não foi possível continuar.");
+          return;
+        }
+
+        currentUser = { username: data.username };
+        authPassword.value = "";
+        authPasswordConfirm.value = "";
+        updateAuthUI();
+        messageInput.focus();
+      } catch (_error) {
+        showAuthError("Sem conexão com o servidor.");
+      } finally {
+        authSubmitting = false;
+        authSubmitBtn.disabled = false;
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch("/api/auth/logout", {
+          method: "POST",
+          credentials: "include",
+        });
+      } catch (_error) {
+        // ignore
+      }
+
+      currentUser = null;
+      clearReplyTarget();
+      updateAuthUI();
+      openAuthModal("login");
+    }
+
+    async function initAuth() {
+      try {
+        const user = await fetchCurrentUser();
+        currentUser = user;
+      } catch (_error) {
+        currentUser = null;
+      }
+
+      updateAuthUI();
+
+      if (!currentUser) {
+        openAuthModal("login");
+      }
+    }
+
+    openAuthBtn.addEventListener("click", () => openAuthModal("login"));
+    authCloseBtn.addEventListener("click", closeAuthModal);
+    authTabLogin.addEventListener("click", () => setAuthMode("login"));
+    authTabRegister.addEventListener("click", () => setAuthMode("register"));
+    authSubmitBtn.addEventListener("click", submitAuth);
+    logoutBtn.addEventListener("click", logout);
+
+    authModal.addEventListener("click", (event) => {
+      if (event.target === authModal) closeAuthModal();
+    });
+
+    authPassword.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") submitAuth();
+    });
+
+    authPasswordConfirm.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") submitAuth();
+    });
+
+    authUsername.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") authPassword.focus();
+    });
+
+    const BRASILIA_TZ = "America/Sao_Paulo";
+
+    function formatDateBrasilia(isoString) {
+      return new Date(isoString).toLocaleDateString("pt-BR", {
+        timeZone: BRASILIA_TZ,
+      });
+    }
+
+    function formatTimeBrasilia(isoString) {
+      return new Date(isoString).toLocaleTimeString("pt-BR", {
+        timeZone: BRASILIA_TZ,
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function truncateText(text, maxLength = 80) {
+      if (text.length <= maxLength) return text;
+      return text.slice(0, maxLength - 3) + "...";
+    }
+
+    function setReplyTarget(msg) {
+      replyingTo = { id: msg.id, name: msg.name, text: msg.text };
+      replyBannerText.textContent =
+        "Respondendo a " + msg.name + ': "' + truncateText(msg.text) + '"';
+      replyBanner.classList.add("active");
+      messageInput.placeholder = "Escreva sua resposta...";
+      messageInput.focus();
+    }
+
+    function clearReplyTarget() {
+      replyingTo = null;
+      replyBanner.classList.remove("active");
+      replyBannerText.textContent = "";
+      messageInput.placeholder = "Digite uma mensagem...";
+    }
+
+    function getNameRankClass(name) {
+      if (name === topRanks.gold) return "name-first";
+      return "";
+    }
+
+    function appendStars(container, name) {
+      const stars = userStars[name] || 0;
+      for (let i = 0; i < stars; i++) {
+        const star = document.createElement("span");
+        star.className = "user-star";
+        star.textContent = "⭐";
+        star.setAttribute("aria-hidden", "true");
+        container.appendChild(star);
+      }
+    }
+
+    function isUserOnline(name) {
+      const key = name.toLowerCase();
+      return onlineUsers.some((user) => user.toLowerCase() === key);
+    }
+
+    function renderLeaderboard() {
+      const tbody = document.getElementById("leaderboard-body");
+      tbody.innerHTML = "";
+
+      if (!leaderboard.length) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 3;
+        cell.textContent = "Nenhuma mensagem ainda";
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+      }
+
+      leaderboard.forEach((entry) => {
+        const row = document.createElement("tr");
+        if (entry.rank === 1) row.className = "leaderboard-row-first";
+
+        const rankCell = document.createElement("td");
+        rankCell.textContent = entry.rank;
+
+        const nameCell = document.createElement("td");
+        const nameStrong = document.createElement("strong");
+        nameStrong.textContent = entry.name;
+        const rankClass = getNameRankClass(entry.name);
+        if (rankClass) nameStrong.className = rankClass;
+        nameCell.appendChild(nameStrong);
+        if (isUserOnline(entry.name)) {
+          const onlineTag = document.createElement("span");
+          onlineTag.className = "user-online";
+          onlineTag.textContent = " (online)";
+          nameCell.appendChild(onlineTag);
+        }
+        appendStars(nameCell, entry.name);
+
+        const countCell = document.createElement("td");
+        countCell.textContent = entry.count;
+
+        row.appendChild(rankCell);
+        row.appendChild(nameCell);
+        row.appendChild(countCell);
+        tbody.appendChild(row);
+      });
+    }
+
+    function leaderboardChanged(
+      current,
+      latest,
+      currentRanks,
+      latestRanks,
+      currentStars,
+      latestStars,
+      currentOnline,
+      latestOnline
+    ) {
+      if (JSON.stringify(current) !== JSON.stringify(latest)) return true;
+      if (JSON.stringify(currentRanks) !== JSON.stringify(latestRanks)) return true;
+      if (JSON.stringify(currentStars) !== JSON.stringify(latestStars)) return true;
+      return JSON.stringify(currentOnline) !== JSON.stringify(latestOnline);
+    }
+
+    async function fetchLeaderboard() {
+      const response = await fetch("/api/leaderboard", fetchOptions);
+      if (!response.ok) throw new Error("leaderboard");
+      return response.json();
+    }
+
+    async function refreshLeaderboard(forceRenderMessages = false) {
+      const data = await fetchLeaderboard();
+      const changed = leaderboardChanged(
+        leaderboard,
+        data.leaderboard,
+        topRanks,
+        data.topRanks,
+        userStars,
+        data.userStars,
+        onlineUsers,
+        data.onlineUsers
+      );
+
+      leaderboard = data.leaderboard;
+      topRanks = data.topRanks;
+      userStars = data.userStars || {};
+      onlineUsers = data.onlineUsers || [];
+      renderLeaderboard();
+
+      if (changed || forceRenderMessages) {
+        renderMessages();
+      }
     }
 
     function renderMessages() {
@@ -182,35 +980,93 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function appendMessage(msg, scroll = true) {
-      const currentDate = formatDate(new Date(msg.timestamp));
+    function messagesChanged(current, latest) {
+      if (current.length !== latest.length) return true;
+
+      return current.some((msg, index) => {
+        const other = latest[index];
+        return (
+          msg.id !== other.id ||
+          msg.text !== other.text ||
+          msg.kind !== other.kind ||
+          (msg.replyTo?.id || null) !== (other.replyTo?.id || null)
+        );
+      });
+    }
+
+    function buildMessageRow(msg) {
+      const currentDate = formatDateBrasilia(msg.timestamp);
+      const fragment = document.createDocumentFragment();
 
       if (currentDate !== lastDate) {
         const dateDiv = document.createElement("div");
         dateDiv.className = "date-separator";
         dateDiv.textContent = currentDate;
-        chatBox.appendChild(dateDiv);
+        fragment.appendChild(dateDiv);
         lastDate = currentDate;
       }
 
-      const p = document.createElement("p");
-      p.className = "message-line";
+      if (msg.kind === "aura") {
+        const auraWrap = document.createElement("div");
+        auraWrap.className = "aura-announcement";
 
-      const strong = document.createElement("strong");
-      strong.textContent = msg.name + ":";
-      p.appendChild(strong);
-      p.appendChild(document.createTextNode(" " + msg.text));
+        const auraBox = document.createElement("div");
+        auraBox.className = "aura-announcement-box";
+        auraBox.textContent = msg.text;
 
-      chatBox.appendChild(p);
+        auraWrap.appendChild(auraBox);
+        fragment.appendChild(auraWrap);
+        return fragment;
+      }
+
+      const row = document.createElement("div");
+      row.className = "message-line";
+      row.dataset.messageId = msg.id;
+
+      if (msg.replyTo) {
+        const replyPreview = document.createElement("div");
+        replyPreview.className = "reply-preview";
+        replyPreview.textContent =
+          "↳ " + msg.replyTo.name + ': "' + truncateText(msg.replyTo.text) + '"';
+        row.appendChild(replyPreview);
+      }
+
+      const body = document.createElement("div");
+      body.className = "message-body";
+
+      const name = document.createElement("strong");
+      name.textContent = msg.name;
+      const rankClass = getNameRankClass(msg.name);
+      if (rankClass) name.className = rankClass;
+
+      const time = document.createElement("span");
+      time.className = "message-time";
+      time.textContent = " (" + formatTimeBrasilia(msg.timestamp) + "):";
+
+      const replyBtn = document.createElement("button");
+      replyBtn.type = "button";
+      replyBtn.className = "reply-btn";
+      replyBtn.textContent = "responder";
+      replyBtn.title = "Responder";
+      replyBtn.addEventListener("click", () => setReplyTarget(msg));
+
+      body.appendChild(name);
+      appendStars(body, msg.name);
+      body.appendChild(time);
+      body.appendChild(document.createTextNode(" " + msg.text + " "));
+      body.appendChild(replyBtn);
+      row.appendChild(body);
+      fragment.appendChild(row);
+
+      return fragment;
+    }
+
+    function appendMessage(msg, scroll = true) {
+      chatBox.appendChild(buildMessageRow(msg));
 
       if (scroll) {
         chatBox.scrollTop = chatBox.scrollHeight;
       }
-    }
-
-    function setStatus(text, ok) {
-      statusEl.textContent = text;
-      statusEl.className = "status " + (ok ? "connected" : "disconnected");
     }
 
     function addMessageIfNew(msg) {
@@ -219,31 +1075,30 @@
       appendMessage(msg);
     }
 
-    async function loadHistory() {
-      const response = await fetch("/api/messages");
-      if (!response.ok) throw new Error("history");
-      messages = await response.json();
+    function syncMessages(latest) {
+      if (!messagesChanged(messages, latest)) return;
+      messages = latest;
       renderMessages();
+    }
+
+    async function fetchMessages() {
+      const response = await fetch("/api/messages", fetchOptions);
+      if (!response.ok) throw new Error("fetch");
+      return response.json();
+    }
+
+    async function loadHistory() {
+      messages = await fetchMessages();
+      await refreshLeaderboard(true);
     }
 
     async function pollMessages() {
       try {
-        const response = await fetch("/api/messages");
-        if (!response.ok) throw new Error("poll");
-        const latest = await response.json();
-
-        if (latest.length !== messages.length) {
-          messages = latest;
-          renderMessages();
-          setStatus("Conectado — mensagens atualizadas automaticamente", true);
-          return;
-        }
-
-        const lastKnownId = messages.length ? messages[messages.length - 1].id : 0;
-        latest.filter((msg) => msg.id > lastKnownId).forEach(addMessageIfNew);
-        setStatus("Conectado — mensagens atualizadas automaticamente", true);
+        const latest = await fetchMessages();
+        syncMessages(latest);
+        await refreshLeaderboard(false);
       } catch (_error) {
-        setStatus("Sem conexão com o servidor — tentando reconectar...", false);
+        // silently retry on next poll
       }
     }
 
@@ -253,11 +1108,15 @@
     }
 
     async function sendMessage() {
-      const username = usernameInput.value.trim();
+      if (!currentUser) {
+        openAuthModal("login");
+        return;
+      }
+
       const message = messageInput.value.trim();
 
-      if (!username || !message) {
-        alert("Digite seu nome e a mensagem!");
+      if (!message) {
+        alert("Digite a mensagem!");
         return;
       }
 
@@ -265,14 +1124,24 @@
       sending = true;
       sendBtn.disabled = true;
 
-      localStorage.setItem("onumchat-username", username);
-
       try {
+        const payload = { text: message };
+        if (replyingTo) payload.replyToId = replyingTo.id;
+
         const response = await fetch("/api/messages", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: username, text: message }),
+          credentials: "include",
+          body: JSON.stringify(payload),
         });
+
+        if (response.status === 401) {
+          currentUser = null;
+          updateAuthUI();
+          openAuthModal("login");
+          showAuthError("Sua sessão expirou. Entre novamente.");
+          return;
+        }
 
         if (!response.ok) {
           alert("Não foi possível enviar a mensagem.");
@@ -282,18 +1151,19 @@
         const saved = await response.json();
         addMessageIfNew(saved);
         messageInput.value = "";
-        setStatus("Conectado — mensagens atualizadas automaticamente", true);
+        clearReplyTarget();
+        await refreshLeaderboard(true);
       } catch (_error) {
         alert("Sem conexão com o servidor. Tente novamente.");
-        setStatus("Sem conexão com o servidor — tentando reconectar...", false);
       } finally {
         sending = false;
-        sendBtn.disabled = false;
-        messageInput.focus();
+        updateAuthUI();
+        if (currentUser) messageInput.focus();
       }
     }
 
     sendBtn.addEventListener("click", sendMessage);
+    replyCancelBtn.addEventListener("click", clearReplyTarget);
 
     messageInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -301,15 +1171,10 @@
       }
     });
 
-    loadHistory()
-      .then(() => {
-        setStatus("Conectado — mensagens atualizadas automaticamente", true);
-        startPolling();
-      })
-      .catch(() => {
-        setStatus("Sem conexão com o servidor — tentando reconectar...", false);
-        startPolling();
-      });
+    initAuth()
+      .then(() => loadHistory())
+      .then(() => startPolling())
+      .catch(() => startPolling());
   </script>
 </body>
 </html>
