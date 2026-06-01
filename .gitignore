@@ -1,3 +1,4 @@
 node_modules/
 messages.db
+messages.db.offline-*
 onumchat.service
